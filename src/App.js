@@ -4,40 +4,63 @@ import { useState } from "react";
 import Board from "./components/Board";
 import GameInfo from "./components/GameInfo";
 import calculateWinner from "./utils/calculateWinner";
+import Timeline from "./components/Timeline";
 
 const App = () => {
-  const [isXNext, setIsXNext] = useState(false);
-  const [board, setBoard] = useState(Array(9).fill(null));
+  const [timeline, setTimeline] = useState([
+    {
+      isXNext: false,
+      board: Array(9).fill(null),
+    },
+  ]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const board = timeline[currentStep].board;
+  const isXNext = timeline[currentStep].isXNext;
   const winner = calculateWinner(board);
 
   const handleResetGameClick = () => {
-    setBoard(Array(9).fill(null));
-    setIsXNext(false);
+    // setBoard(Array(9).fill(null));
+    // setIsXNext(false);
   };
 
   const handleSquareClick = (index) => {
     if (winner) return;
-    setBoard((currBoard) => {
-      const newBoard = [...currBoard];
 
-      if (newBoard[index]) {
-        return newBoard;
-      }
-      newBoard[index] = isXNext ? "X" : "O";
+    const newBoard = [...board];
 
-      setIsXNext(!isXNext);
+    if (newBoard[index]) {
       return newBoard;
-    });
+    }
+    newBoard[index] = isXNext ? "X" : "O";
+
+    setTimeline([
+      ...timeline.slice(0, currentStep + 1),
+      {
+        board: newBoard,
+        isXNext: !isXNext,
+      },
+    ]);
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handleTimelineItemClick = (index) => {
+    setCurrentStep(index);
   };
 
   return (
     <div className="container">
       <Board board={board} onAction={handleSquareClick} />
-      <GameInfo
-        winner={winner}
-        isXNext={isXNext}
-        onReset={handleResetGameClick}
-      />
+      <div>
+        <GameInfo
+          winner={winner}
+          isXNext={isXNext}
+          onReset={handleResetGameClick}
+        />
+        <Timeline
+          timeline={timeline}
+          onTimelineItemClick={handleTimelineItemClick}
+        />
+      </div>
     </div>
   );
 };
