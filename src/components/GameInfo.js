@@ -1,10 +1,4 @@
-import Button from "./Button";
-
-const GameInfo = ({ winner, isXNext, onReset }) => {
-  const handleResetGameClick = () => {
-    onReset();
-  };
-
+const GameInfo = ({ winner, isXNext }) => {
   return (
     <div className="game-info">
       {winner ? (
@@ -12,8 +6,6 @@ const GameInfo = ({ winner, isXNext, onReset }) => {
       ) : (
         <h2>Next player: {isXNext ? "X" : "O"}</h2>
       )}
-
-      <Button onClick={handleResetGameClick}>Start Over</Button>
     </div>
   );
 };

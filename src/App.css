@@ -36,3 +36,12 @@
   font-size: 24px;
   display: block;
 }
+
+.button:hover {
+  background-color: #bfbfbf;
+  cursor: pointer;
+}
+
+.button[data-active="true"] {
+  background-color: #d4fb5d;
+}

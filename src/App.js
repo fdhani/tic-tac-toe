@@ -18,11 +18,6 @@ const App = () => {
   const isXNext = timeline[currentStep].isXNext;
   const winner = calculateWinner(board);
 
-  const handleResetGameClick = () => {
-    // setBoard(Array(9).fill(null));
-    // setIsXNext(false);
-  };
-
   const handleSquareClick = (index) => {
     if (winner) return;
 
@@ -51,12 +46,9 @@ const App = () => {
     <div className="container">
       <Board board={board} onAction={handleSquareClick} />
       <div>
-        <GameInfo
-          winner={winner}
-          isXNext={isXNext}
-          onReset={handleResetGameClick}
-        />
+        <GameInfo winner={winner} isXNext={isXNext} />
         <Timeline
+          currentStep={currentStep}
           timeline={timeline}
           onTimelineItemClick={handleTimelineItemClick}
         />
